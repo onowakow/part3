@@ -71,7 +71,33 @@ const generateId = () => {
 
 app.post('/api/persons', (request, response) => {
   const body = request.body
+
+  // If name is missing, return error
+  if (!body.name) {
+    return response.status(400).json({
+      error: 'entries must have names'
+    })
+  }
+
+  // If number is missing, return error
+  if (!body.number) {
+    return response.status(400).json({
+      error: 'entries must include phone number'
+    })
+  }
   
+  // Check if name already exists
+  const name = request.body.name
+  // holds index or undefined if name already exists or does not exist (respectively)
+  const check = persons.find(person => person.name === name)
+  // If name exists, return error
+  if (check !== undefined) {
+    return response.status(400).json({
+      error: 'name must be unique'
+    })
+  }
+
+
   const person = {
     id: generateId(),
     name: body.name,
