@@ -1,10 +1,18 @@
 // As with program wrote in part3-notes, this line is akin to import express from 'express'
 const express = require("express");
+const morgan = require("morgan");
 // express is a function, called here to create an app. The app is stored in app.
 const app = express();
 
 // For post request, data must be parsed as JSON
 app.use(express.json())
+
+// morgan middleware
+morgan.token('body', (request, response) => {
+  return JSON.stringify(request.body)
+})
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 let persons = [
   {
