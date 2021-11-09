@@ -3,6 +3,9 @@ const express = require("express");
 // express is a function, called here to create an app. The app is stored in app.
 const app = express();
 
+// For post request, data must be parsed as JSON
+app.use(express.json())
+
 let persons = [
   {
     id: 1,
@@ -35,6 +38,16 @@ app.get('/api/persons', (request, response) => {
   response.json(persons)
 })
 
+app.get('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id)
+  const person = persons.find(person => person.id === id)
+  if (!person) {
+    response.status(404).end()
+  } else {
+    response.json(person)
+  }
+})
+
 app.get('/api/info', (request, response) => {
   const personsLength = persons.length
   response.send(
@@ -44,6 +57,15 @@ app.get('/api/info', (request, response) => {
     `
   )
 })
+
+app.delete('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id)
+  persons = persons.filter(person => person.id !== id)
+
+  response.status(204).end()
+})
+
+app.post()
 
 const PORT = 3001
 app.listen(PORT, () => {
