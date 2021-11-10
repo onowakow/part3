@@ -4,6 +4,9 @@ const morgan = require("morgan");
 const cors = require('cors');
 // express is a function, called here to create an app. The app is stored in app.
 const app = express();
+// Http get requests will first check build for addresses and default to rendering there.
+app.use(express.static('build'))
+
 // Cross-origin resource sharing. Allows servers to communicate
 app.use(cors())
 
