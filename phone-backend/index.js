@@ -1,8 +1,11 @@
 // As with program wrote in part3-notes, this line is akin to import express from 'express'
 const express = require("express");
 const morgan = require("morgan");
+const cors = require('cors');
 // express is a function, called here to create an app. The app is stored in app.
 const app = express();
+// Cross-origin resource sharing. Allows servers to communicate
+app.use(cors())
 
 // For post request, data must be parsed as JSON
 app.use(express.json())
